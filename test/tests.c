@@ -85,8 +85,13 @@ int     main(void)
     int     count;
     int     write_char_origin;
     int     write_char_copy;
+	int		g_s;
+	int		g_S;
+	int		g_c;
+	int		g_C;
+	int		g_percent;
+	int		g_d;
 
-	//setbuf(stdout, NULL);
 	if (access(FILE_NAME, F_OK) == 0)
 		remove(FILE_NAME);
     FILE *fp = fopen(FILE_NAME, "ab+");
@@ -96,14 +101,22 @@ int     main(void)
     miss_count = 0;
 	setlocale(LC_ALL, "en_US.UTF-8");
 
-    printf("%sГруппа: Закусон%s\n", YELLOW, NC);
+	g_s = 1;
+	g_S = 0;
+
+	g_c = 1;
+	g_C = 0;
+
+	g_percent = 1;
+	g_d = 1;
+
+	if (g_s > 0)
+	{
+    	printf("%sГруппа: s%s\n", YELLOW, NC);  //      <==== s
     	count = 0;
-    	COMPARE("Hi");
+		COMPARE("Hi");
     	COMPARE("");
     	COMPARE("\n");
-
-    printf("%sГруппа: sS%s\n", YELLOW, NC);  //      <==== sS
-    	count = 0;
     	COMPARE("%s", "it's work!");
     	COMPARE("%s%s", "it's work!", "really work =)");
     	COMPARE("%s%s%s%s%s%s%s%s", "it's work!", "really work =)", "<>", "<>", "<>", "<>", "<>", "<>");
@@ -147,6 +160,12 @@ int     main(void)
 		COMPARE("%010s", NULL);
 		COMPARE("%s%2s", "", "123");
 		COMPARE("%.0s", "123");
+	}
+
+	if (g_S > 0)
+	{
+		printf("%sГруппа: sS%s\n", YELLOW, NC);  //      <==== S
+    	count = 0;
 		COMPARE("@@%ls\n", L"∑∑œß∂ƒ");
 		COMPARE("%S", NULL);
 		COMPARE("%S", L"");
@@ -196,21 +215,17 @@ int     main(void)
 		s = L"S„™º ";
 		COMPARE("%9.6ls %S", s, L"a");
 		COMPARE("%-+-12.7Dt%0 4i %04.2% et %lc titi", 125, 124, 256);
+	}
 
-	printf("%sГруппа: cС%s\n", YELLOW, NC); //      <==== cС
+	if (g_c > 0)
+	{
+		printf("%sГруппа: c%s\n", YELLOW, NC); //      <==== c
     	count = 0;
 		COMPARE("%c", 0);
 		COMPARE("%10c", 0);
 		COMPARE("%-10c", 0);
 		COMPARE("==>%2c", 0);
-		COMPARE("%.0%");
-		COMPARE("%.5%");
 		COMPARE("%.0c", '1');
-		COMPARE("%+C", 0);
-		COMPARE("% C", 0);
-		COMPARE("% C", L'ϡ');
-		COMPARE("% C", L'Ϭ');
-		COMPARE("%.1C", L'Ϭ');
 		COMPARE("%10c", 'b');
 		COMPARE("%.4c", 'b');
 		COMPARE("%-4c", 'b');
@@ -221,12 +236,23 @@ int     main(void)
 		COMPARE("%010c", 'b');
 		COMPARE("%0*c", 10, 'b');
 		COMPARE("%c%c%c%c", 'a', 'b', 'c', 'd');
+		COMPARE("%10c bla %10c bla", 0, 0);
+	}
+
+	if (g_C > 0)
+	{
+		printf("%sГруппа: С%s\n", YELLOW, NC); //      <==== cС
+    	count = 0;
+		COMPARE("%+C", 0);
+		COMPARE("% C", 0);
+		COMPARE("% C", L'ϡ');
+		COMPARE("% C", L'Ϭ');
+		COMPARE("%.1C", L'Ϭ');
 		COMPARE("%+lc", 0);
 		COMPARE("% lc", 0);
 		COMPARE("% lc", L'ϡ');
 		COMPARE("% lc", L'Ϭ');
 		COMPARE("%.1lc", L'Ϭ');
-		COMPARE("%10c bla %10c bla", 0, 0);
 		COMPARE("%lc", 0x40501);
 		COMPARE("%lc", 0x1F680);
 		COMPARE("%C", L'🚀');
@@ -235,11 +261,12 @@ int     main(void)
 		COMPARE("%lc", 254);
 		COMPARE("%C", 256);
 		COMPARE("%LC", 0xbffe);
+	}
 
-
-	printf("%sГруппа: %%%s\n", YELLOW, NC); //      <==== %
+	if (g_percent > 0)
+	{
+		printf("%sГруппа: %%%s\n", YELLOW, NC); //      <==== %
     	count = 0;
-
 		COMPARE("%%");
 		COMPARE("%%%%%%%%");
 		COMPARE("%10%");
@@ -251,13 +278,17 @@ int     main(void)
 		COMPARE("%ll%");
 		COMPARE("%h%");
 		COMPARE("%hh%");
-		COMPARE("%z%");
 		COMPARE("%-10%");
 		COMPARE("% 010%");
 		COMPARE("% 010.5%");
 		COMPARE("%- 010.5%");
 		COMPARE(".0%%=%.0%\n");
+		COMPARE("%.0%");
+		COMPARE("%.5%");
+	}
 
+	if (g_d > 0)
+	{
     printf("%sГруппа: d and i%s\n", YELLOW, NC); //      <==== d and i
     	count = 0;
     	COMPARE("%d", 777);
@@ -433,6 +464,9 @@ int     main(void)
 		COMPARE("%0.*d", 5, +123);
 		COMPARE("%0.*d", 5, -1234556);
 		COMPARE("%hd", -32769);
+		COMPARE("%d", 777);
+    	COMPARE("%d%d%d", 1, 2, 3);
+	}
 
 	printf("%sГруппа: u%s\n", YELLOW, NC); //      <==== u
     	count = 0;
