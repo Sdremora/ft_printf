@@ -21,7 +21,7 @@ $(NAME): $(OBJ)
 	gcc $(FLAGS) -c $(addprefix -I,$(INCLUDES)) $< -o $@
 
 debug: fclean add_flags all
-	gcc -lftprintf -L. $(addprefix -I,$(INCLUDES)) test/tests.c $(FLAGS) -o test/ft_printf
+	gcc -lftprintf -L. $(addprefix -I,$(INCLUDES)) test/tests.c $(FLAGS) -o test/ft_printf.out
 
 add_flags:
 	$(eval FLAGS = $(DEBUG_FLAGS))
